@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Booking System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+
+        header {
+            background-color: #4285f4;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #4285f4;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #search-form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4285f4;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #results {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        #results p {
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            flex: 1 0 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Travel Booking System</h1>
+    </header>
+    <main>
+        <div id="search-form">
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination">
+            <button onclick="searchAndDisplayResults()">Search</button>
+        </div>
+        <div id="results"></div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Travel Booking System</p>
+    </footer>
+    <script>
+        let destinations = [
+            { name: 'Paris', price: '$500' },
+            { name: 'Tokyo', price: '$800' },
+            { name: 'New York', price: '$700' },
+            // Add more destinations as needed
+        ];
+
+        function searchAndDisplayResults() {
+            const destinationInput = document.getElementById('destination');
+            const searchTerm = destinationInput.value.toLowerCase();
+            const resultsDiv = document.getElementById('results');
+
+            const filteredDestinations = destinations.filter(destination =>
+                destination.name.toLowerCase().includes(searchTerm)
+            );
+
+            resultsDiv.innerHTML = '';
+
+            if (filteredDestinations.length > 0) {
+                filteredDestinations.forEach(destination => {
+                    const resultItem = document.createElement('div');
+                    resultItem.innerHTML = `<p>${destination.name} - ${destination.price}</p>`;
+                    resultsDiv.appendChild(resultItem);
+                });
+            } else {
+                resultsDiv.innerHTML = '<p>No results found.</p>';
+            }
+        }
+    </script>
+</body>
+
+</html>

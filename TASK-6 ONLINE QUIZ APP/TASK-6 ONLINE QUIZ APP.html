@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Quiz App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #quiz-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4285f4;
+        }
+
+        #categories {
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #4285f4;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #quiz,
+        #result {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .question {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .option {
+            margin: 5px 0;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            background-color: #4285f4;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background-color: #3c78d8;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="quiz-container">
+        <h1>Online Quiz App</h1>
+
+        <div id="categories">
+            <label for="category">Choose a category:</label>
+            <select id="category">
+                <option value="general">General Knowledge</option>
+                <option value="science">Science</option>
+                <option value="computer">Computer Fundamentals</option>
+
+            </select>
+        </div>
+
+        <button onclick="startQuiz()">Start Quiz</button>
+
+        <div id="quiz"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const questions = [
+            {
+                question: 'What is the primary function of the CPU?',
+                options: ['Memory storage', 'Calculation and control', 'Input processing', 'Output rendering'],
+                correctIndex: 1
+            },
+            {
+                question: 'Which programming language is known for its high performance and use in system programming?',
+                options: ['Python', 'Java', 'C++', 'JavaScript'],
+                correctIndex: 2
+            },
+            {
+                question: 'What does RAM stand for in computing?',
+                options: ['Random Access Memory', 'Read-Only Memory', 'Real-time Analytical Memory', 'Remote Access Memory'],
+                correctIndex: 0
+            },
+            {
+                question: 'Which of the following is a fundamental data type in most programming languages?',
+                options: ['Boolean', 'Character', 'Floating-point', 'All of the above'],
+                correctIndex: 3
+            },
+            {
+                question: 'What is the purpose of an operating system?',
+                options: ['Run applications', 'Manage hardware resources', 'Provide user interfaces', 'All of the above'],
+                correctIndex: 3
+            },
+    
+        ];
+
+        function startQuiz() {
+            const category = document.getElementById('category').value;
+
+            document.getElementById('categories').style.display = 'none';
+            document.getElementById('quiz').style.display = 'block';
+
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const quizContainer = document.getElementById('quiz');
+            const currentQuestion = questions[currentQuestionIndex];
+
+            if (currentQuestion) {
+                quizContainer.innerHTML = `
+                    <div class="question">${currentQuestion.question}</div>
+                    <div class="options">
+                        ${currentQuestion.options.map((option, index) => `
+                            <button class="option" onclick="checkAnswer(${index})">${option}</button>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                showResult();
+            }
+        }
+
+        function checkAnswer(selectedIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+
+            if (selectedIndex === currentQuestion.correctIndex) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+            renderQuestion();
+        }
+
+        function showResult() {
+            const quizContainer = document.getElementById('quiz');
+            const resultContainer = document.getElementById('result');
+
+            quizContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+
+            resultContainer.innerHTML = `<h2>Your Score: ${score}/${questions.length}</h2>
+                                        <button onclick="retest()">Retest</button>`;
+        }
+
+        function retest() {
+            currentQuestionIndex = 0;
+            score = 0;
+
+            document.getElementById('categories').style.display = 'block';
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
